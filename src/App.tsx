@@ -63,32 +63,36 @@ function App() {
     //const analytics = getAnalytics(app);
 
     const messaging = getMessaging();
-    getToken(messaging, {
-      vapidKey:
-        "BGxcK1rbd-FOa8T12JMGYZgPQvqLB4que7Kcr661GnD9wLH4_VeDrZOEpnMYStRK_qJX9IOBtM1C2wbpDzQfgIY",
-    })
-      .then((currentToken) => {
-        if (currentToken) {
-          // Send the token to your server and update the UI if necessary
-          // ...
-          console.log(currentToken);
-        } else {
-          // Show permission request UI
-          console.log(
-            "No registration token available. Request permission to generate one."
-          );
-          // ...
-        }
-      })
-      .catch((err) => {
-        console.log("An error occurred while retrieving token. ", err);
-        // ...
-      });
 
-    // onMessage(messaging, (payload) => {
-    //   console.log("Message received. ", payload);
-    //   // ...
-    // });
+    navigator.serviceWorker.ready.then((serviceWorker) => {
+      getToken(messaging, {
+        vapidKey:
+          "BGxcK1rbd-FOa8T12JMGYZgPQvqLB4que7Kcr661GnD9wLH4_VeDrZOEpnMYStRK_qJX9IOBtM1C2wbpDzQfgIY",
+        serviceWorkerRegistration: serviceWorker,
+      })
+        .then((currentToken) => {
+          if (currentToken) {
+            // Send the token to your server and update the UI if necessary
+            // ...
+            console.log(currentToken);
+          } else {
+            // Show permission request UI
+            console.log(
+              "No registration token available. Request permission to generate one."
+            );
+            // ...
+          }
+        })
+        .catch((err) => {
+          console.log("An error occurred while retrieving token. ", err);
+          // ...
+        });
+    });
+
+    onMessage(messaging, (payload) => {
+      console.log("Message received. ", payload);
+      // ...
+    });
 
     // check for Notification permission
     if (Notification.permission === "granted") {
