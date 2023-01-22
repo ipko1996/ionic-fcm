@@ -1,0 +1,7 @@
+{
+  "name": "Ionic-FCM",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
